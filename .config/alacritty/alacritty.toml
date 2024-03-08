@@ -1,0 +1,28 @@
+import = ["/Users/alanmauricioc/.config/alacritty/themes/themes/challenger_deep.toml"]
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 16
+
+[font.bold]
+family = "SauceCodePro Nerd Font Mono"
+style = "Bold"
+
+[font.bold_italic]
+family = "SauceCodePro Nerd Font Mono"
+style = "Bold Italic"
+
+[font.italic]
+family = "SauceCodePro Nerd Font Mono"
+style = "Italic"
+
+[font.normal]
+family = "SauceCodePro Nerd Font Mono"
+style = "Medium"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "N"
+mods = "Command"
