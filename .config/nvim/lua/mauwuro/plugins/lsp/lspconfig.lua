@@ -29,7 +29,7 @@ cmp.setup({
       documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert({
-      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-a>'] = cmp.mapping.scroll_docs(-4),
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.abort(),
@@ -60,25 +60,28 @@ cmp.setup({
     }
   })
 
-  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline(':', {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-    })
-  })
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+-- cmp.setup.cmdline(':', {
+--   mapping = cmp.mapping.preset.cmdline(),
+--   sources = cmp.config.sources({
+--     { name = 'path' }
+--   }, {
+--     { name = 'cmdline' }
+--   })
+-- })
 -- import typescript plugin safely
 local typescript_setup, typescript = pcall(require, "typescript")
 if not typescript_setup then
 	return
 end
 
-local keymap = vim.keymap -- for conciseness
+-- used to enable autocompletion (assign to every lsp server config)
+local capabilities = cmp_nvim_lsp.default_capabilities()
+
 
 -- enable keybinds only for when lsp server available
 local on_attach_TS = function(client, _)
+  local keymap = vim.keymap -- for conciseness
 	-- typescript specific keymaps (e.g. rename file and update imports)
 	if client.name == "tsserver" then
 		keymap.set("n", "<leader>crf", ":TypescriptRenameFile<CR>") -- rename file and update imports
@@ -87,24 +90,20 @@ local on_attach_TS = function(client, _)
 	end
 end
 
--- used to enable autocompletion (assign to every lsp server config)
-local capabilities = cmp_nvim_lsp.default_capabilities()
-
--- Change the Diagnostic symbols in the sign column (gutter)
-local signs = { Error = " ", Warn = " ", Hint = "", Info = " " }
-for type, icon in pairs(signs) do
-	local hl = "DiagnosticSign" .. type
-	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-end
+-- configure go server
+lspconfig["gopls"].setup {
+  capabilities = capabilities,
+}
 
 -- configure go server
-lspconfig["gopls"].setup({
-	capabilities = capabilities,
-})
+lspconfig["pyright"].setup {
+  capabilities = capabilities,
+}
+
 -- configure html server
-lspconfig["html"].setup({
-	capabilities = capabilities,
-})
+lspconfig["html"].setup {
+  capabilities = capabilities,
+}
 
 -- configure typescript server with plugin
 typescript.setup({
@@ -115,9 +114,9 @@ typescript.setup({
 })
 
 -- configure css server
-lspconfig["cssls"].setup({
-	capabilities = capabilities,
-})
+lspconfig["cssls"].setup {
+  capabilities = capabilities,
+}
 
 -- configure lua server (with special settings)
 lspconfig["lua_ls"].setup({
@@ -138,3 +137,11 @@ lspconfig["lua_ls"].setup({
 		},
 	},
 })
+
+-- Change the Diagnostic symbols in the sign column (gutter)
+local signs = { Error = " ", Warn = " ", Hint = "", Info = " " }
+for type, icon in pairs(signs) do
+	local hl = "DiagnosticSign" .. type
+	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+end
+
