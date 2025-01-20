@@ -15,9 +15,9 @@ keymap.set("n", "x", '"_x')
 
 -- window management
 wk.register({
-  w = {
-    name = "Window",
-  },
+	w = {
+		name = "Window",
+	},
 }, { prefix = "<leader>" })
 keymap.set("n", "<leader>wv", "<C-w>v")
 keymap.set("n", "<leader>ws", "<C-w>s")
@@ -26,9 +26,9 @@ keymap.set("n", "<leader>wc", "<cmd>close<CR>")
 
 -- tab management
 wk.register({
-  t = {
-    name = "Tabs",
-  },
+	t = {
+		name = "Tabs",
+	},
 }, { prefix = "<leader>" })
 keymap.set("n", "<leader>to", "<cmd>tabnew<CR>")
 keymap.set("n", "<leader>tc", "<cmd>tabclose<CR>")
@@ -37,9 +37,9 @@ keymap.set("n", "<leader>th", "<cmd>tabp<CR>")
 
 -- buffers
 wk.register({
-  b = {
-    name = "Buffer",
-  },
+	b = {
+		name = "Buffer",
+	},
 }, { prefix = "<leader>" })
 keymap.set("n", "<leader>bn", "<cmd>bnext<CR>")
 keymap.set("n", "<leader>bp", "<cmd>bprevious<CR>")
@@ -51,9 +51,9 @@ keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>")
 
 -- telescope
 wk.register({
-  f = {
-    name = "File",
-  },
+	f = {
+		name = "File",
+	},
 }, { prefix = "<leader>" })
 keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>")
 keymap.set("n", "<leader>fr", "<cmd>Telescope file_browser<cr>")
@@ -71,12 +71,12 @@ keymap.set("n", "<leader>q", ":q<CR>")
 
 -- git status
 wk.register({
-  g = {
-    name = "Git",
-    b = "Blame",
-    h = "Hunk",
-    l = "List",
-  },
+	g = {
+		name = "Git",
+		b = "Blame",
+		h = "Hunk",
+		l = "List",
+	},
 }, { prefix = "<leader>" })
 
 keymap.set("n", "<leader>gg", "<cmd>Neogit<CR>")
@@ -89,7 +89,6 @@ keymap.set("n", "<leader>gbc", "<cmd>Telescope git_bcommits<cr>")
 keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>")
 keymap.set("n", "<leader>gS", "<cmd>Telescope git_stash<cr>")
 
-
 keymap.set({ "o", "x" }, "ih", "<cmd>Gitsigns select_hunk<CR>")
 keymap.set("n", "<leader>gj", "<cmd>Gitsigns next_hunk<CR>", { desc = "Git Next Hunk" })
 keymap.set("n", "<leader>gk", "<cmd>Gitsigns prev_hunk<CR>", { desc = "Git Prev Hunk" })
@@ -98,13 +97,18 @@ keymap.set("n", "<leader>ghS", "<cmd>Gitsigns undo_stage_hunk<CR>")
 keymap.set("n", "<leader>ghp", "<cmd>Gitsigns preview_hunk<CR>")
 keymap.set("n", "<leader>ghR", "<cmd>Gitsigns reset_hunk<CR>")
 
-
 -- LSP stuff
 keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>")
 keymap.set("n", "<leader>cd", "<cmd>Lspsaga hover_doc<CR>")
 keymap.set("n", "<leader>cw", "<cmd>Lspsaga show_line_diagnostics<CR>")
 keymap.set("n", "gd", "<cmd>Lspsaga goto_definition<CR>")
-keymap.set({ "n", "v" }, "ff", vim.lsp.buf.format)
+keymap.set({ "n", "v" }, "ff", function()
+	require("conform").format({
+		lsp_fallback = true,
+		async = true,
+		timeout_ms = 500,
+	})
+end, { desc = "Format file or range" })
 -- extra keymaps ../plugins/lsp/lspsaga.lua
 
 -- snippets
