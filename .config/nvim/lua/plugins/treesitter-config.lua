@@ -33,8 +33,6 @@ return {
 				},
 				-- enable indentation
 				indent = { enable = true },
-				-- enable autotagging (w/ nvim-ts-autotag plugin)
-				autotag = { enable = true },
 				-- ensure these language parsers are installed
 				ensure_installed = {
 					"json",
@@ -53,6 +51,32 @@ return {
 				},
 				-- auto install above language parsers
 				auto_install = true,
+			})
+		end,
+	},
+	{
+		"nvim-ts-autotag",
+		config = function()
+			-- import nvim-treesitter plugin safely
+			local status, autotag = pcall(require, "nvim-ts-autotag")
+			if not status then
+				return
+			end
+			autotag.setup({
+				opts = {
+					-- Defaults
+					enable_close = true, -- Auto close tags
+					enable_rename = true, -- Auto rename pairs of tags
+					enable_close_on_slash = false, -- Auto close on trailing </
+				},
+				-- Also override individual filetype configs, these take priority.
+				-- Empty by default, useful if one of the "opts" global settings
+				-- doesn't work well in a specific filetype
+				per_filetype = {
+					["html"] = {
+						enable_close = false,
+					},
+				},
 			})
 		end,
 	},
