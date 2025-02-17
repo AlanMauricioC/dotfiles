@@ -33,24 +33,6 @@ return {
 				},
 				-- enable indentation
 				indent = { enable = true },
-				-- ensure these language parsers are installed
-				ensure_installed = {
-					"json",
-					"javascript",
-					"typescript",
-					"tsx",
-					"yaml",
-					"html",
-					"css",
-					"markdown",
-					"graphql",
-					"bash",
-					"lua",
-					"vim",
-					"gitignore",
-				},
-				-- auto install above language parsers
-				auto_install = true,
 			})
 		end,
 	},
